@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Disher Art — Brooch Collection</title>
+  <style>
+    :root{
+      --maxw:1100px;
+      --bg:#fdfdfc;
+      --fg:#111;
+      --card-bg:#fff;
+      --accent:#b8860b; /* ゴールド */
+      --secondary-bg:#f7f3ef;
+      font-family: "Noto Serif JP", serif;
+    }
+    body{margin:0;background:var(--bg);color:var(--fg);display:flex;flex-direction:column;align-items:center;transition:.3s}
+    header{width:100%;background:linear-gradient(90deg,#fff,var(--secondary-bg));box-shadow:0 2px 6px rgba(0,0,0,.06)}
+    .wrap{max-width:var(--maxw);width:100%;padding:28px}
+    h1{margin:0;font-size:28px;font-weight:700;color:var(--accent);letter-spacing:1px}
+    .intro{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .notice{margin-top:10px;padding:16px;background:#fff7e6;border:1px solid #f0d9a9;border-radius:8px;font-size:15px;line-height:1.6}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:28px}
+    .card{background:var(--card-bg);border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);display:flex;flex-direction:column;transition:.3s}
+    .card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
+    .thumb{width:100%;height:240px;border-radius:12px;object-fit:cover}
+    .meta{margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:700;color:var(--accent)}
+    button{background:var(--accent);color:#fff;border:0;padding:8px 16px;border-radius:8px;cursor:pointer;transition:.3s;white-space:nowrap}
+    button:hover{opacity:0.9}
+    button.secondary{background:transparent;color:var(--fg);border:1px solid #ccc}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:50}
+    .modal.open{display:flex}
+    .modal-inner{background:var(--card-bg);padding:22px;border-radius:14px;max-width:900px;width:94%;display:grid;grid-template-columns:1fr 1fr;gap:16px;color:var(--fg)}
+    .modal img{width:100%;height:100%;object-fit:contain;border-radius:8px}
+    .details h2{margin:0 0 10px;color:var(--accent)}
+    form{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    input,textarea{padding:10px;border-radius:6px;border:1px solid #ccc;width:100%;font-family:inherit}
+    footer{width:100%;padding:20px 0;text-align:center;color:#666;margin-top:40px;border-top:1px solid #eee;font-size:14px}
+    a{text-decoration:none;color:var(--accent)}
+    a:hover{text-decoration:underline}
+    @media(max-width:700px){.modal-inner{grid-template-columns:1fr}}
+
+    body.dark{--bg:#111;--fg:#fdfdfc;--card-bg:#1e1e1e;--accent:#d4af37;--secondary-bg:#333}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap intro">
+      <div>
+        <h1>Disher Art</h1>
+        <p style="margin:6px 0 0;color:#444">手作りブローチのコレクション。全て一点物です。</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button id="toggle-theme" class="secondary">🌙 Dark Mode</button>
+        <a href="#about"><button class="secondary">作者について</button></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 注文方法 -->
+    <section class="notice">
+      <strong>【ご注文方法】</strong><br>
+      各商品ページのフォームに <b>お名前</b> と <b>メールアドレス</b> をご記入ください。<br>
+      後ほどこちらから <b>PayPayでのお支払い方法</b> をご案内し、購入手続きに進んでいただきます。
+    </section>
+
+    <!-- 商品一覧 -->
+    <section>
+      <div class="grid" id="products"></div>
+    </section>
+
+    <!-- 作者紹介 -->
+    <section id="about" style="margin-top:50px;padding:30px;background:var(--secondary-bg);border-radius:12px">
+      <h2 style="color:var(--accent)">作者について</h2>
+      <p>
+        <strong>Disher Art</strong> は Mauxx Rouge による手作りジュエリーブランドです。  
+        細部にこだわり、一つひとつの作品に物語を込めています。  
+        <br><br>
+        Instagram: <a href="https://instagram.com/" target="_blank">@DisherArt</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- モーダル -->
+  <div class="modal" id="modal">
+    <div class="modal-inner">
+      <div><img id="modal-img" src="" alt=""></div>
+      <div class="details">
+        <h2 id="modal-title"></h2>
+        <p id="modal-desc"></p>
+        <p class="price" id="modal-price"></p>
+        <form id="order-form">
+          <input type="text" name="name" placeholder="お名前" required>
+          <input type="email" name="email" placeholder="メールアドレス" required>
+          <textarea name="message" placeholder="住所・ご要望など" required></textarea>
+          <button type="submit">注文を送信</button>
+          <button type="button" class="secondary" id="close">閉じる</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © Disher Art — contact: <a href="mailto:hello@example.com">hello@example.com</a>
+  </footer>
+
+  <script>
+    const products = [
+      {id:1,title:"Elegant Rose Brooch",price:2500,desc:"バラをモチーフにした華やかなデザイン。フォーマルにもカジュアルにも合わせやすいです。",img:"images/IMG_6237.JPG"},
+      {id:2,title:"Crystal Leaf Brooch",price:3200,desc:"キラキラ輝く葉っぱのデザイン。自然を感じさせる優しい印象です。",img:"images/IMG_6238.JPG"},
+      {id:3,title:"Pearl Flower Brooch",price:2800,desc:"パールを中心にあしらった可憐なお花デザイン。上品さを演出します。",img:"images/IMG_6239.JPG"},
+      {id:4,title:"Golden Ribbon Brooch",price:3000,desc:"リボンをモチーフにしたゴールドカラー。華やかさをプラス。",img:"images/IMG_6240.JPG"},
+      {id:5,title:"Butterfly Charm Brooch",price:2600,desc:"蝶々のモチーフで可愛らしく。春のお出かけにぴったりです。",img:"images/IMG_6241.JPG"},
+      {id:6,title:"Vintage Cameo Brooch",price:3500,desc:"クラシックなカメオデザイン。アンティーク好きにおすすめです。",img:"images/IMG_6242.JPG"},
+      {id:7,title:"Star Light Brooch",price:2900,desc:"星型の輝きをイメージ。夜空のように神秘的です。",img:"images/IMG_6243.JPG"},
+      {id:8,title:"Classic Heart Brooch",price:2700,desc:"ハート型の定番デザイン。ギフトにも最適です。",img:"images/IMG_6244.JPG"},
+      {id:9,title:"Snowflake Brooch",price:3100,desc:"雪の結晶をデザイン。冬の季節感を楽しめます。",img:"images/IMG_6245.JPG"},
+      {id:10,title:"Ocean Wave Brooch",price:2400,desc:"波をイメージした爽やかなデザイン。夏に映えます。",img:"images/IMG_6246.JPG"},
+      {id:11,title:"Modern Art Brooch",price:3300,desc:"モダンな抽象デザイン。個性を引き立てます。",img:"images/IMG_6247.JPG"}
+    ];
+  
+    const productsEl=document.getElementById('products');
+    const modal=document.getElementById('modal');
+    const modalImg=document.getElementById('modal-img');
+    const modalTitle=document.getElementById('modal-title');
+    const modalDesc=document.getElementById('modal-desc');
+    const modalPrice=document.getElementById('modal-price');
+    const closeBtn=document.getElementById('close');
+    const orderForm=document.getElementById('order-form');
+  
+    function renderProducts(){
+      productsEl.innerHTML='';
+      products.forEach(p=>{
+        const card=document.createElement('div');card.className='card';
+        card.innerHTML=`
+          <img class="thumb" src="${p.img}" alt="${p.title}">
+          <div class="meta">
+            <div>
+              <div style="font-weight:600">${p.title}</div>
+              <div style="font-size:13px;color:#666">${p.desc.substring(0,20)}...</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">¥${p.price}</div>
+              <div style="margin-top:8px;display:flex;gap:6px">
+                <button data-id="${p.id}" class="open">詳細</button>
+              </div>
+            </div>
+          </div>`;
+        productsEl.appendChild(card);
+      });
+    }
+  
+    function openModal(id){
+      const p=products.find(x=>x.id===id);
+      modalImg.src=p.img;modalImg.alt=p.title;
+      modalTitle.textContent=p.title;modalDesc.textContent=p.desc;
+      modalPrice.textContent='¥'+p.price;
+      modal.classList.add('open');
+    }
+  
+    closeBtn.addEventListener('click',()=>modal.classList.remove('open'));
+    modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+  
+    document.addEventListener('click',e=>{
+      if(e.target.matches('.open')){openModal(+e.target.dataset.id)}
+    });
+  
+    orderForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const data=new FormData(orderForm);
+      const msg=`注文: ${modalTitle.textContent}\n名前: ${data.get('name')}\nメール: ${data.get('email')}\n住所等: ${data.get('message')}`;
+      window.location.href=`mailto:hello@example.com?subject=ブローチ注文&body=${encodeURIComponent(msg)}`;
+    });
+  
+    document.getElementById('toggle-theme').addEventListener('click',()=>{
+      document.body.classList.toggle('dark');
+    });
+  
+    renderProducts();
+  </script>
+  
+</body>
+</html>
