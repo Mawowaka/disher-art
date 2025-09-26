@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Disher Art — プレミアムブローチ</title>
+  <style>
+    :root{
+      --maxw:1100px;
+      --bg:#0d0b09;
+      --fg:#fdfdfc;
+      --card-bg:#1a1a1a;
+      --accent:#ffd700; /* ゴールド */
+      --secondary-bg:#2a2a2a;
+      font-family: "Noto Serif JP", serif;
+    }
+    body{margin:0;background:var(--bg);color:var(--fg);display:flex;flex-direction:column;align-items:center;transition:.3s}
+    header{width:100%;background:linear-gradient(90deg,#1a1a1a,#333);box-shadow:0 2px 6px rgba(0,0,0,.6)}
+    .wrap{max-width:var(--maxw);width:100%;padding:28px}
+    h1{margin:0;font-size:28px;font-weight:700;color:var(--accent);letter-spacing:1px}
+    .intro{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .notice{margin-top:10px;padding:16px;background:#2a2a2a;border:1px solid #444;border-radius:8px;font-size:15px;line-height:1.6;color:#ddd}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:28px}
+    .card{background:var(--card-bg);border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:flex;flex-direction:column;transition:.3s}
+    .card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.6)}
+    .thumb{width:100%;height:260px;border-radius:12px;object-fit:cover}
+    .meta{margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:700;color:var(--accent)}
+    button{background:var(--accent);color:#000;border:0;padding:8px 16px;border-radius:8px;cursor:pointer;transition:.3s;white-space:nowrap}
+    button:hover{opacity:0.9}
+    button.secondary{background:transparent;color:var(--fg);border:1px solid #888}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:50}
+    .modal.open{display:flex}
+    .modal-inner{background:var(--card-bg);padding:22px;border-radius:14px;max-width:900px;width:94%;display:grid;grid-template-columns:1fr 1fr;gap:16px;color:var(--fg)}
+    .modal img{width:100%;height:100%;object-fit:contain;border-radius:8px}
+    .details h2{margin:0 0 10px;color:var(--accent)}
+    form{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    input,textarea{padding:10px;border-radius:6px;border:1px solid #555;background:#222;color:#fff;width:100%;font-family:inherit}
+    footer{width:100%;padding:20px 0;text-align:center;color:#aaa;margin-top:40px;border-top:1px solid #444;font-size:14px}
+    a{text-decoration:none;color:var(--accent)}
+    a:hover{text-decoration:underline}
+    @media(max-width:700px){.modal-inner{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap intro">
+      <div>
+        <h1>プレミアムブローチ</h1>
+        <p style="margin:6px 0 0;color:#ddd">特別な日にふさわしい、ラグジュアリーな一点物コレクション。</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="index.html"><button class="secondary">← 通常商品へ戻る</button></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 注文方法 -->
+    <section class="notice">
+      <strong>【ご注文方法】</strong><br>
+      各商品ページのフォームに <b>お名前</b> と <b>メールアドレス</b> をご記入ください。<br>
+      後ほどこちらから <b>PayPayでのお支払い方法</b> をご案内し、購入手続きに進んでいただきます。
+    </section>
+
+    <!-- プレミアム商品一覧 -->
+    <section>
+      <div class="grid" id="premium-products"></div>
+    </section>
+  </main>
+
+  <!-- モーダル -->
+  <div class="modal" id="modal">
+    <div class="modal-inner">
+      <div><img id="modal-img" src="" alt=""></div>
+      <div class="details">
+        <h2 id="modal-title"></h2>
+        <p id="modal-desc"></p>
+        <p class="price" id="modal-price"></p>
+        <form id="order-form">
+          <input type="text" name="name" placeholder="お名前" required>
+          <input type="email" name="email" placeholder="メールアドレス" required>
+          <textarea name="message" placeholder="住所・ご要望など" required></textarea>
+          <button type="submit">注文を送信</button>
+          <button type="button" class="secondary" id="close">閉じる</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © Disher Art — contact: <a href="mailto:mkuw16@gmail.com">mkuw16@gmail.com</a>
+  </footer>
+
+  <script>
+    const premiumProducts = [
+      {id:201,title:"Premium Diamond Brooch",price:12000,desc:"ダイヤをあしらった特別な一点物。特別な日を彩ります。",img:"images/premium1.JPG"},
+      {id:202,title:"Premium Sapphire Brooch",price:15000,desc:"サファイアの輝きを閉じ込めた高級感あふれるブローチ。",img:"images/premium2.JPG"},
+      {id:203,title:"Premium Ruby Brooch",price:14000,desc:"ルビーの赤が印象的なラグジュアリーブローチ。華やかな場面に最適です。",img:"images/premium3.JPG"}
+    ];
+  
+    const premiumEl=document.getElementById('premium-products');
+    const modal=document.getElementById('modal');
+    const modalImg=document.getElementById('modal-img');
+    const modalTitle=document.getElementById('modal-title');
+    const modalDesc=document.getElementById('modal-desc');
+    const modalPrice=document.getElementById('modal-price');
+    const closeBtn=document.getElementById('close');
+    const orderForm=document.getElementById('order-form');
+  
+    function renderPremium(){
+      premiumEl.innerHTML='';
+      premiumProducts.forEach(p=>{
+        const card=document.createElement('div');card.className='card';
+        card.innerHTML=`
+          <img class="thumb" src="${p.img}" alt="${p.title}">
+          <div class="meta">
+            <div>
+              <div style="font-weight:600">${p.title}</div>
+              <div style="font-size:13px;color:#ccc">${p.desc.substring(0,20)}...</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">¥${p.price}</div>
+              <div style="margin-top:8px;display:flex;gap:6px">
+                <button data-id="${p.id}" class="open">詳細</button>
+              </div>
+            </div>
+          </div>`;
+        premiumEl.appendChild(card);
+      });
+    }
+  
+    function openModal(id){
+      const p=premiumProducts.find(x=>x.id===id);
+      modalImg.src=p.img;modalImg.alt=p.title;
+      modalTitle.textContent=p.title;modalDesc.textContent=p.desc;
+      modalPrice.textContent='¥'+p.price;
+      modal.classList.add('open');
+    }
+  
+    closeBtn.addEventListener('click',()=>modal.classList.remove('open'));
+    modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+  
+    document.addEventListener('click',e=>{
+      if(e.target.matches('.open')){openModal(+e.target.dataset.id)}
+    });
+  
+    orderForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const data=new FormData(orderForm);
+      const msg=`この度はご購入を検討いただきありがとうございます。\n\n下記の情報をご確認の上、送信してください。\n\n商品: ${modalTitle.textContent}\n名前: ${data.get('name')}\nメール: ${data.get('email')}\n住所等: ${data.get('message')}`;
+      window.location.href=`mailto:mkuw16@gmail.com?subject=ブローチ注文依頼書&body=${encodeURIComponent(msg)}`;
+    });
+  
+    renderPremium();
+  </script>
+</body>
+</html>
