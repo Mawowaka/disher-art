@@ -10,7 +10,7 @@
       --bg:#fdfdfc;
       --fg:#111;
       --card-bg:#fff;
-      --accent:#b8860b; /* ゴールド */
+      --accent:#b8860b;
       --secondary-bg:#f7f3ef;
       font-family: "Noto Serif JP", serif;
     }
@@ -94,7 +94,8 @@
         <form id="order-form">
           <input type="text" name="name" placeholder="お名前" required>
           <input type="email" name="email" placeholder="メールアドレス" required>
-          <textarea name="message" placeholder="住所・ご要望など" required></textarea>
+          <textarea name="message" placeholder="住所" required></textarea>
+          <textarea name="message" placeholder="ご要望など"></textarea>
           <button type="submit">注文を送信</button>
           <button type="button" class="secondary" id="close">閉じる</button>
         </form>
@@ -120,7 +121,7 @@
       {id:10,title:"Ocean Wave Brooch",price:2400,desc:"波をイメージした爽やかなデザイン。夏に映えます。",img:"images/IMG_6246.JPG"},
       {id:11,title:"Modern Art Brooch",price:3300,desc:"モダンな抽象デザイン。個性を引き立てます。",img:"images/IMG_6247.JPG"}
     ];
-  
+
     const productsEl=document.getElementById('products');
     const modal=document.getElementById('modal');
     const modalImg=document.getElementById('modal-img');
@@ -129,7 +130,7 @@
     const modalPrice=document.getElementById('modal-price');
     const closeBtn=document.getElementById('close');
     const orderForm=document.getElementById('order-form');
-  
+
     function renderProducts(){
       productsEl.innerHTML='';
       products.forEach(p=>{
@@ -151,7 +152,7 @@
         productsEl.appendChild(card);
       });
     }
-  
+
     function openModal(id){
       const p=products.find(x=>x.id===id);
       modalImg.src=p.img;modalImg.alt=p.title;
@@ -159,27 +160,39 @@
       modalPrice.textContent='¥'+p.price;
       modal.classList.add('open');
     }
-  
+
     closeBtn.addEventListener('click',()=>modal.classList.remove('open'));
     modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
-  
+
     document.addEventListener('click',e=>{
       if(e.target.matches('.open')){openModal(+e.target.dataset.id)}
     });
-  
-    orderForm.addEventListener('submit',e=>{
+
+    // 更新済み：メール本文と件名の固定
+    orderForm.addEventListener('submit', e => {
       e.preventDefault();
-      const data=new FormData(orderForm);
-      const msg=`注文: ${modalTitle.textContent}\n名前: ${data.get('name')}\nメール: ${data.get('email')}\n住所等: ${data.get('message')}`;
-      window.location.href=`mailto:hello@example.com?subject=ブローチ注文&body=${encodeURIComponent(msg)}`;
+      const data = new FormData(orderForm);
+
+      const msg = `
+この度はご購入を検討いただきありがとうございます。
+下記の名前、メールアドレス、住所が間違っていないかご確認の上、送信願います。
+支払い方法のメールを返信させていただきます。
+
+【商品名】 ${modalTitle.textContent}
+【お名前】 ${data.get('name')}
+【メール】 ${data.get('email')}
+【住所・ご要望等】 ${data.get('message')}
+`;
+
+      const mailtoLink = `mailto:mkuw16@gmail.com?subject=${encodeURIComponent('ブローチ注文依頼書')}&body=${encodeURIComponent(msg)}`;
+      window.location.href = mailtoLink;
     });
-  
+
     document.getElementById('toggle-theme').addEventListener('click',()=>{
       document.body.classList.toggle('dark');
     });
-  
+
     renderProducts();
   </script>
-  
 </body>
 </html>
