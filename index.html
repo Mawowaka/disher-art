@@ -76,36 +76,66 @@
     <div class="wrap intro">
       <div>
         <h1>Disher Art</h1>
-        <p style="margin:6px 0 0;color:var(--fg)">手作りブローチのコレクション。全て一点物です。</p>
+        <p style="margin:6px 0 0;color:var(--fg)">手作りジュエリーのコレクション。全て一点物です。</p>
       </div>
       <div style="display:flex;gap:10px;align-items:center">
-        <button id="toggle-theme" class="secondary">🌙 Dark Mode</button>
+        <a href="#brand"><button class="secondary">🏷 ブランド紹介</button></a>
         <a href="#about"><button class="secondary">作者について</button></a>
         <a href="premium.html"><button class="secondary">💎 プレミアムブローチ</button></a>
+        <button id="toggle-theme" class="secondary">🌙 Dark Mode</button>
       </div>
     </div>
   </header>
 
   <main class="wrap">
-    <section class="notice">
+      <section class="notice">
       <strong>【ご注文方法】</strong><br>
       各商品ページのフォームに <b>お名前</b> と <b>メールアドレス</b> をご記入ください。<br>
-      後ほどこちらから <b>PayPayでのお支払い方法</b> をご案内し、購入手続きに進んでいただきます。
+      ご注文を受け次第、<b>メルカリにて商品を出品</b>いたします。<br>
+      そちらをご確認いただき、<b>落札（購入）</b>という形でのお渡しとなります。
     </section>
+
 
     <section>
       <div class="grid" id="products"></div>
     </section>
 
-    <section id="about" style="margin-top:50px;padding:30px;background:var(--secondary-bg);border-radius:12px">
-      <h2 style="color:var(--accent)">作者について</h2>
+    <section id="brand" style="margin-top:30px;padding:30px;background:var(--secondary-bg);border-radius:12px">
+      <h2 style="color:var(--accent)">DISHER ART
+      </h2>
       <p>
-        <strong>Disher Art</strong> による手作りジュエリーブランドです。  
-        細部にこだわり、一つひとつの作品に物語を込めています。  
-        <br><br>
-        Instagram: <a href="https://www.instagram.com/disher_dishart?igsh=MXFsbmhka3g5YWtsMw%3D%3D&utm_source=qr" target="_blank">@DisherArt</a>
+        お料理が器によって彩りを変えるように、私たちもまた、身にまとうジュエリーによって心が弾み、背中を押され、特別な時間を過ごすことができます。
+      <p>
+        私の作るジュエリーには、いつもヨーロッパの物語が息づいています。あなたの日常のワンシーンに寄り添い、小さな輝きと共に、素敵な時間をお届けできることを願っています。
+      </p> 
+        Instagram: <a href="https://instagram.com/" target="_blank">@Disher_Art</a>
       </p>
     </section>
+    <section>
+      <div class="grid" id="products"></div>
+    </section>
+
+    <section id="about" style="margin-top:20px;padding:30px;background:var(--secondary-bg);border-radius:12px;display:flex;align-items:center;gap:30px;flex-wrap:wrap">
+  <div style="flex:1;min-width:280px">
+    <h2 style="color:var(--accent)">作者について - マミッセル</h2>
+    <p>
+      DISHER ARTは、作家<strong>マミッセル</strong>によるジュエリーブランドです。<br>
+      細部にまで心を配り、1つひとつの作品に物語を込めながら製作しています。<br>
+      ブランド名 DISHER ART はブランドそのものを、そしてマミッセルは作者名を表します。<br>
+      名前の由来は、かつて暮らしていた街「ブリュッセル」にあります。
+    </p>
+  </div>
+  <div style="flex:1;min-width:280px;text-align:center">
+    <img src="images/brussels.jpeg" alt="Brussels" 
+         style="width:100%;max-width:400px;border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,0.2);object-fit:cover;transition:.3s;transform:scale(1);cursor:pointer"
+         onmouseover="this.style.transform='scale(1.05)'" 
+         onmouseout="this.style.transform='scale(1)'">
+    <figcaption style="margin-top:8px;font-size:14px;color:#555;font-style:italic">
+        マミッセルの暮らした街
+    </figcaption>
+  </div>
+</section>
+
   </main>
 
   <!-- 詳細モーダル（共通） -->
@@ -125,17 +155,40 @@
         <p class="desc" id="modal-desc"></p>
         <div class="price" id="modal-price"></div>
 
-        <form id="order-form">
-          <input type="text" name="name" placeholder="お名前" required>
-          <input type="email" name="email" placeholder="メールアドレス" required>
-          <input type="text" name="address" placeholder="郵便番号・住所" required>
-          <textarea name="note" placeholder="ご要望など（任意）"></textarea>
+              <form id="order-form">
+        <input type="text" name="name" placeholder="お名前" required>
+        <input type="email" name="email" placeholder="メールアドレス" required>
 
-          <div style="display:flex;gap:8px;margin-top:6px">
-            <button type="submit">注文を送信</button>
-            <button type="button" class="secondary" id="close">閉じる</button>
-          </div>
-        </form>
+        <!-- 性別選択 -->
+        <label for="gender">性別:</label>
+        <select name="gender" id="gender" required>
+          <option value="">選択してください</option>
+          <option value="男性">男性</option>
+          <option value="女性">女性</option>
+          <option value="その他">その他</option>
+        </select>
+
+        <!-- 年齢層選択 -->
+        <label for="age">年齢:</label>
+        <select name="age" id="age" required>
+          <option value="">選択してください</option>
+          <option value="20歳以下">20歳以下</option>
+          <option value="20代">20代</option>
+          <option value="30代">30代</option>
+          <option value="40代">40代</option>
+          <option value="50代">50代</option>
+          <option value="60代">60代</option>
+          <option value="70歳以上">70歳以上</option>
+        </select>
+
+        <textarea name="note" placeholder="ご要望など（任意）"></textarea>
+
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button type="submit">注文を送信</button>
+          <button type="button" class="secondary" id="close">閉じる</button>
+        </div>
+      </form>
+
       </div>
     </div>
   </div>
