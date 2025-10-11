@@ -66,6 +66,7 @@
     /* ダーク時の modal 内も読みやすく */
     body.dark .modal-inner{background:var(--card-bg);color:var(--fg)}
     body.dark .modal-thumb-row img{background:#222}
+    body.dark header { background: #222; }
 
     a{text-decoration:none;color:var(--accent)}
     a:hover{text-decoration:underline}
@@ -73,25 +74,33 @@
 </head>
 <body>
   <header>
-    <div class="wrap intro">
-      <div>
-        <h1>Disher Art</h1>
-        <p style="margin:6px 0 0;color:var(--fg)">手作りジュエリーのコレクション。全て一点物です。</p>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <a href="#brand"><button class="secondary">🏷 ブランド紹介</button></a>
-        <a href="#about"><button class="secondary">作者について</button></a>
-        <a href="premium.html"><button class="secondary">💎 プレミアムブローチ</button></a>
-        <button id="toggle-theme" class="secondary">🌙 Dark Mode</button>
-      </div>
+
+  <div class="wrap intro" style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <!-- 左側：ロゴとテキスト -->
+    <div style="display:flex; flex-direction:column; align-items:flex-start; gap:2px;">
+      <img src="images/3.png" alt="Disher Art" style="height:80px; object-fit:contain;">
+      <br>
+      <p style="margin:0; color:var(--fg); text-align:left; font-size:14px;">
+        手作りジュエリーのコレクション。全て一点物です。
+      </p>
     </div>
-  </header>
+
+    <!-- 右側：ボタン群 -->
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="#brand"><button class="secondary">🏷 ブランド紹介</button></a>
+      <a href="#about"><button class="secondary">🪡 作者について</button></a>
+      <a href="premium.html"><button class="secondary">💎 プレミアムブローチ</button></a>
+      <button id="toggle-theme" class="secondary">🌙 Dark Mode</button>
+    </div>
+  </div>
+</header>
+
 
   <main class="wrap">
       <section class="notice">
       <strong>【ご注文方法】</strong><br>
-      各商品ページのフォームに <b>お名前</b> と <b>メールアドレス</b> をご記入ください。<br>
-      ご注文を受け次第、<b>メルカリにて商品を出品</b>いたします。<br>
+      各商品ページの詳細フォームに <b>お名前</b> と <b>メールアドレス</b> をご記入ください。<br>
+      ご注文を受け次第、<b>メルカリにて商品を出品</b>いたします。<b>メルカリ以外の方</b>は、指定の銀行へのお振り込みも可能です<br>
       そちらをご確認いただき、<b>落札（購入）</b>という形でのお渡しとなります。
     </section>
 
@@ -100,20 +109,37 @@
       <div class="grid" id="products"></div>
     </section>
 
-    <section id="brand" style="margin-top:30px;padding:30px;background:var(--secondary-bg);border-radius:12px">
-      <h2 style="color:var(--accent)">DISHER ART
-      </h2>
-      <p>
-        お料理が器によって彩りを変えるように、私たちもまた、身にまとうジュエリーによって心が弾み、背中を押され、特別な時間を過ごすことができます。
-      <p>
-        私の作るジュエリーには、いつもヨーロッパの物語が息づいています。あなたの日常のワンシーンに寄り添い、小さな輝きと共に、素敵な時間をお届けできることを願っています。
-      </p> 
-        Instagram: <a href="https://instagram.com/" target="_blank">@Disher_Art</a>
-      </p>
+        <section id="brand" style="margin-top:30px;padding:30px;background:var(--secondary-bg);border-radius:12px;
+      display:flex;align-items:center;gap:30px;flex-wrap:wrap">
+      
+      <!-- 左：ブランド紹介文 -->
+      <div style="flex:1;min-width:280px">
+        <h2 style="color:var(--accent)">ブランド紹介 - DISHER ART</h2>
+        <p>
+          お料理が器によって彩りを変えるように、私たちもまた、身にまとうジュエリーによって
+          心が弾み、背中を押され、特別な時間を過ごすことができます。
+        </p>
+        <p>
+          私の作るジュエリーには、いつもヨーロッパの物語が息づいています。
+          あなたの日常のワンシーンに寄り添い、小さな輝きと共に、
+          素敵な時間をお届けできることを願っています。
+        </p>
+        <p>
+          Instagram: <a href="https://instagram.com/" target="_blank">@Disher_Art</a>
+        </p>
+      </div>
+
+      <!-- 右：ブランドイメージ写真 -->
+      <div style="flex:1;min-width:280px;text-align:center">
+        <img src="images/brand_image.png" alt="ブランドイメージ" 
+             style="width:100%;max-width:250px;border-radius:50%;
+             box-shadow:0 12px 28px rgba(0,0,0,0.2);object-fit:cover;
+             transition:.3s;transform:scale(1);cursor:pointer"
+             onmouseover="this.style.transform='scale(1.05)'" 
+             onmouseout="this.style.transform='scale(1)'">
+      </div>
     </section>
-    <section>
-      <div class="grid" id="products"></div>
-    </section>
+
 
     <section id="about" style="margin-top:20px;padding:30px;background:var(--secondary-bg);border-radius:12px;display:flex;align-items:center;gap:30px;flex-wrap:wrap">
   <div style="flex:1;min-width:280px">
@@ -121,8 +147,7 @@
     <p>
       DISHER ARTは、作家<strong>マミッセル</strong>によるジュエリーブランドです。<br>
       細部にまで心を配り、1つひとつの作品に物語を込めながら製作しています。<br>
-      ブランド名 DISHER ART はブランドそのものを、そしてマミッセルは作者名を表します。<br>
-      名前の由来は、かつて暮らしていた街「ブリュッセル」にあります。
+      作者名の由来は、かつて暮らしていた街「ブリュッセル」にあります。
     </p>
   </div>
   <div style="flex:1;min-width:280px;text-align:center">
@@ -205,91 +230,171 @@
     const products = [
       {
         id:1,
-        title:"Elegant Rose Brooch",
+        title:"French Neon Brooch",
         price:2500,
-        desc:"バラをモチーフにした華やかなブローチ。淡いピンクの輝きが特徴です。",
-        img:"images/IMG_6237.JPG",
-        images:["images/IMG_6237.JPG", "images/IMG_6238.JPG", "images/IMG_6239.JPG"]
+        desc:"パリの夜を彩るネオンサインのように、鮮やかな光と遊び心を胸元に宿します。",
+        img:"images/IMG_1_1.jpeg",
+        images:["images/IMG_1_1.jpeg", "images/IMG_1_2.jpeg", "images/IMG_1_3.jpeg"]
       },
       {
         id:2,
-        title:"Crystal Leaf Brooch",
+        title:"Pop-Up Roze Party Brooch",
         price:3200,
-        desc:"キラキラ輝く葉っぱのデザイン。自然を感じさせる優しい印象です。",
-        img:"images/IMG_6238.JPG",
-        images:["images/IMG_6238.JPG"]
+        desc:"ふいに咲いたバラが、まるでパーティーを祝福するかのように華やかに輝く瞬間を表現しました。",
+        img:"images/IMG_2_1.jpeg",
+        images:["images/IMG_2_1.jpeg", "images/IMG_2_2.jpeg", "images/IMG_2_3.jpeg"]
       },
       {
         id:3,
-        title:"Pearl Flower Brooch",
+        title:"Green Fantasy Rose Brooch",
         price:2800,
-        desc:"パールを中心にあしらった可憐なお花デザイン。上品さを演出します。",
-        img:"images/IMG_6239.JPG",
-        images:["images/IMG_6239.JPG"]
+        desc:"深い森に迷い込んだときに見つけた、幻想的に光る緑のバラ。夢と現実のあわいを閉じ込めています。",
+        img:"images/IMG_3_1.jpeg",
+        images:["images/IMG_3_1.jpeg", "images/IMG_3_2.jpeg", "images/IMG_3_3.jpeg"]
       },
       {
         id:4,
-        title:"Golden Ribbon Brooch",
+        title:"Old Style Lover Brooch",
         price:3000,
-        desc:"リボンをモチーフにしたゴールドカラー。華やかさをプラス。",
-        img:"images/IMG_6240.JPG",
-        images:["images/IMG_6240.JPG"]
+        desc:"レトロ映画のワンシーンから抜け出したような、懐かしさと愛情を宿すブローチ。",
+        img:"images/IMG_4_1.jpeg",
+        images:["images/IMG_4_1.jpeg", "images/IMG_4_2.jpeg", "images/IMG_4_3.jpeg"]
       },
       {
         id:5,
-        title:"Butterfly Charm Brooch",
+        title:"Antique Rose Brooch",
         price:2600,
-        desc:"蝶々のモチーフで可愛らしく。春のお出かけにぴったりです。",
-        img:"images/IMG_6241.JPG",
-        images:["images/IMG_6241.JPG"]
+        desc:"時を重ねても色褪せないアンティークローズ。クラシカルな美しさを求める人へ。",
+        img:"images/IMG_5_1.jpeg",
+        images:["images/IMG_5_1.jpeg", "images/IMG_5_2.jpeg", "images/IMG_5_3.jpeg"]
       },
       {
         id:6,
-        title:"Vintage Cameo Brooch",
+        title:"Good Morning Brooch",
         price:3500,
-        desc:"クラシックなカメオデザイン。アンティーク好きにおすすめです。",
-        img:"images/IMG_6242.JPG",
-        images:["images/IMG_6242.JPG"]
+        desc:"朝の光に包まれる小さな花。新しい一日の始まりを笑顔とともに。",
+        img:"images/IMG_6_1.jpeg",
+        images:["images/IMG_6_1.jpeg", "images/IMG_6_2.jpeg", "images/IMG_6_3.jpeg"]
       },
       {
         id:7,
-        title:"Star Light Brooch",
+        title:"Butterfly Wisper Brooch",
         price:2900,
-        desc:"星型の輝きをイメージ。夜空のように神秘的です。",
-        img:"images/IMG_6243.JPG",
-        images:["images/IMG_6243.JPG"]
+        desc:"静かな庭に舞う蝶が、耳元でそっとささやくように。繊細で自由な心を表現しました。",
+        img:"images/IMG_7_1.jpeg",
+        images:["images/IMG_7_1.jpeg", "images/IMG_7_2.jpeg", "images/IMG_7_3.jpeg"]
       },
       {
         id:8,
-        title:"Classic Heart Brooch",
+        title:"Mrs.Coco Brooch",
         price:2700,
-        desc:"ハート型の定番デザイン。ギフトにも最適です。",
-        img:"images/IMG_6244.JPG",
-        images:["images/IMG_6244.JPG"]
+        desc:"洗練とエレガンスを象徴する名にふさわしく、クラシックな大人の気品を宿した一点。",
+        img:"images/IMG_8_1.jpeg",
+        images:["images/IMG_8_1.jpeg", "images/IMG_8_2.jpeg", "images/IMG_8_3.jpeg"]
       },
       {
         id:9,
-        title:"Snowflake Brooch",
+        title:"Autumn Breeze Brooch",
         price:3100,
-        desc:"雪の結晶をデザイン。冬の季節感を楽しめます。",
-        img:"images/IMG_6245.JPG",
-        images:["images/IMG_6245.JPG"]
+        desc:"落ち葉が風に揺れるように、秋のやわらかな空気を胸元に添えるデザイン。",
+        img:"images/IMG_9_1.jpeg",
+        images:["images/IMG_9_1.jpeg", "images/IMG_9_2.jpeg", "images/IMG_9_3.jpeg"]
       },
       {
         id:10,
-        title:"Ocean Wave Brooch",
+        title:"Cuty Ribbon Brooch",
         price:2400,
-        desc:"波をイメージした爽やかなデザイン。夏に映えます。",
-        img:"images/IMG_6246.JPG",
-        images:["images/IMG_6246.JPG"]
+        desc:"小さなリボンが束ねられた花束。無邪気さと可愛らしさをそのまま閉じ込めました。",
+        img:"images/IMG_10_1.jpeg",
+        images:["images/IMG_10_1.jpeg", "images/IMG_10_2.jpeg", "images/IMG_10_3.jpeg"]
       },
       {
         id:11,
-        title:"Modern Art Brooch",
+        title:"Modern Girl brooch",
         price:3300,
-        desc:"モダンな抽象デザイン。個性を引き立てます。",
-        img:"images/IMG_6247.JPG",
-        images:["images/IMG_6247.JPG"]
+        desc:"自由で都会的な感性を持つ“モダンガール”の姿をイメージ。ファッションの仕上げに。",
+        img:"images/IMG_11_1.jpeg",
+        images:["images/IMG_11_1.jpeg", "images/IMG_11_2.jpeg", "images/IMG_11_3.jpeg"]
+      },
+      {
+        id:12,
+        title:"Elegant Crystal Brooch",
+        price:3200,
+        desc:"澄んだクリスタルが放つ気品。フォーマルな場にふさわしい洗練された輝き。",
+        img:"images/IMG_12_1.jpeg",
+        images:["images/IMG_12_1.jpeg", "images/IMG_12_2.jpeg", "images/IMG_12_3.jpeg"]
+      },
+      {
+        id:13,
+        title:"Sparkle Bronze Brooch",
+        price:2800,
+        desc:"落ち着いたブロンズの煌めきが、静かな夜空の星のように控えめに光を放ちます。",
+        img:"images/IMG_13_1.jpeg",
+        images:["images/IMG_13_1.jpeg", "images/IMG_13_2.jpeg", "images/IMG_13_3.jpeg"]
+      },
+      {
+        id:14,
+        title:"Classic-Based Flower Brooch",
+        price:3000,
+        desc:"クラシックデザインを基盤にした花。時代を超えて愛されるスタイル。",
+        img:"images/IMG_14_1.jpeg",
+        images:["images/IMG_14_1.jpeg", "images/IMG_14_2.jpeg", "images/IMG_14_3.jpeg"]
+      },
+      {
+        id:15,
+        title:"Vintage Flower Brooch",
+        price:2600,
+        desc:"祖母の宝石箱から見つけたような、懐かしくも愛らしい花のモチーフ。",
+        img:"images/IMG_15_1.jpeg",
+        images:["images/IMG_15_1.jpeg", "images/IMG_15_2.jpeg", "images/IMG_15_3.jpeg"]
+      },
+      {
+        id:16,
+        title:"Autumn Brussels Brooch",
+        price:3500,
+        desc:"ブリュッセルの秋。石畳に舞う落ち葉や、黄昏に染まる街並みをそのまま映し取りました。",
+        img:"images/IMG_16_1.jpeg",
+        images:["images/IMG_16_1.jpeg", "images/IMG_16_2.jpeg", "images/IMG_16_3.jpeg"]
+      },
+      {
+        id:17,
+        title:"Raindrop Lovely Brooch",
+        price:2900,
+        desc:"あじさいの花からキラリと落ちた雨のしずく。そんな瞬間を大切にしたい思いで作成しました。",
+        img:"images/IMG_17_1.jpeg",
+        images:["images/IMG_17_1.jpeg", "images/IMG_17_2.jpeg", "images/IMG_17_3.jpeg"]
+      },
+      {
+        id:18,
+        title:"Pink Candy Chunk Brooch",
+        price:2700,
+        desc:"キャンディのように甘くて楽しい色合い。見るだけで心がはじけるようなブローチ。",
+        img:"images/IMG_18_1.jpeg",
+        images:["images/IMG_18_1.jpeg", "images/IMG_18_2.jpeg", "images/IMG_18_3.jpeg"]
+      },
+      {
+        id:19,
+        title:"Little Princess Brooch",
+        price:3100,
+        desc:"童話のお姫さまが胸に抱く、夢ときらめきを表現。可憐さと気高さをあわせ持ちます。",
+        img:"images/IMG_19_1.jpeg",
+        images:["images/IMG_19_1.jpeg", "images/IMG_19_2.jpeg", "images/IMG_19_3.jpeg"]
+      },
+      {
+        id:20,
+        title:"Midnight Party Brooch",
+        price:2400,
+        desc:"真夜中の舞踏会。月明かりに照らされるドレスの輝きを胸元に再現しました。",
+        img:"images/IMG_20_1.jpeg",
+        images:["images/IMG_20_1.jpeg", "images/IMG_20_2.jpeg", "images/IMG_20_3.jpeg"]
+      },
+      {
+        id:21,
+        title:"Flower Garden Brooch",
+        price:3300,
+        desc:"小さな花園をそのまま閉じ込めたような華やかさ。日常に彩りを添える一点です。",
+        img:"images/IMG_21_1.jpeg",
+        images:["images/IMG_21_1.jpeg", "images/IMG_21_2.jpeg", "images/IMG_21_3.jpeg"]
       }
     ];
 
